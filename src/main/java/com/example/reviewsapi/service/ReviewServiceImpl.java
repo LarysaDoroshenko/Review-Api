@@ -2,6 +2,7 @@ package com.example.reviewsapi.service;
 
 import com.example.reviewsapi.dto.*;
 import com.example.reviewsapi.entity.ReviewEntity;
+import com.example.reviewsapi.mapper.ReviewMapper;
 import com.example.reviewsapi.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final RestTemplate restTemplate;
+    private final ReviewMapper reviewMapper;
 
     @Override
     public ReviewResponseDto getReviewListByUserId(Long userId) {
@@ -31,20 +33,16 @@ public class ReviewServiceImpl implements ReviewService {
                                                                     .collect(Collectors.toList());
 
         return ReviewResponseDto.builder()
-                                .userEmail(userResponseDto.getEmail())
-                                .userFirstName(userResponseDto.getFirstName())
-                                .userLastName(userResponseDto.getLastName())
-                                .movieWithReviewDtoList(movieWithReviewDtoList)
+                                .email(userResponseDto.getEmail())
+                                .firstName(userResponseDto.getFirstName())
+                                .lastName(userResponseDto.getLastName())
+                                .movies(movieWithReviewDtoList)
                                 .build();
     }
 
     @Override
-    public ReviewResponseDto createReview(RequestReviewDto requestReviewDto) {
-        ReviewEntity reviewEntity = new ReviewEntity();
-        reviewEntity.setUserId(requestReviewDto.getUserId());
-        reviewEntity.setMovieId(requestReviewDto.getMovieId());
-        reviewEntity.setRating(requestReviewDto.getRating());
-        reviewEntity.setComment(requestReviewDto.getComment());
+    public ReviewResponseDto createReview(ReviewRequestDto reviewRequestDto) {
+        ReviewEntity reviewEntity = reviewMapper.requestReviewDtoToReviewEntity(reviewRequestDto);
         ReviewEntity savedReview = reviewRepository.save(reviewEntity);
 
         return getReviewListByUserId(savedReview.getUserId());
@@ -55,11 +53,11 @@ public class ReviewServiceImpl implements ReviewService {
         MovieResponseDto movie = restTemplate.getForObject(getMovieUrl, MovieResponseDto.class);
 
         return MovieWithReviewDto.builder()
-                                 .movieTitle(movie.getTitle())
-                                 .movieDirectorName(movie.getDirectorName())
-                                 .movieReleaseDate(movie.getReleaseDate())
-                                 .movieRating(reviewEntity.getRating())
-                                 .movieComment(reviewEntity.getComment())
+                                 .title(movie.getTitle())
+                                 .directorName(movie.getDirectorName())
+                                 .releaseDate(movie.getReleaseDate())
+                                 .userRating(reviewEntity.getRating())
+                                 .userComment(reviewEntity.getComment())
                                  .build();
     }
 

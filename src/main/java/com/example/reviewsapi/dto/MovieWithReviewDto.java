@@ -13,10 +13,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class MovieWithReviewDto {
 
-    private String movieTitle;
-    private String movieDirectorName;
-    private LocalDate movieReleaseDate;
-    private Long movieRating;
-    private String movieComment;
+    private String title;
+    private String directorName;
+    private LocalDate releaseDate;
+    private Long userRating;
+    private String userComment;
 
 }

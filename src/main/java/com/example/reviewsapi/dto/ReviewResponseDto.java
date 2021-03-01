@@ -13,9 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 public class ReviewResponseDto {
 
-    private String userEmail;
-    private String userFirstName;
-    private String userLastName;
-    private List<MovieWithReviewDto> movieWithReviewDtoList;
+    private String email;
+    private String firstName;
+    private String lastName;
+    private List<MovieWithReviewDto> movies;
 
 }

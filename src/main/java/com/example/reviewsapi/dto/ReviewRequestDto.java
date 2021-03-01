@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestReviewDto {
+public class ReviewRequestDto {
 
     private Long userId;
     private Long movieId;

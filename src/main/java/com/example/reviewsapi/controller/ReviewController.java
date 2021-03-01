@@ -1,6 +1,6 @@
 package com.example.reviewsapi.controller;
 
-import com.example.reviewsapi.dto.RequestReviewDto;
+import com.example.reviewsapi.dto.ReviewRequestDto;
 import com.example.reviewsapi.dto.ReviewResponseDto;
 import com.example.reviewsapi.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +21,8 @@ public class ReviewController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ReviewResponseDto> createReview(@RequestBody RequestReviewDto requestReviewDto) {
-        return new ResponseEntity<>(reviewService.createReview(requestReviewDto), HttpStatus.CREATED);
+    public ResponseEntity<ReviewResponseDto> createReview(@RequestBody ReviewRequestDto reviewRequestDto) {
+        return new ResponseEntity<>(reviewService.createReview(reviewRequestDto), HttpStatus.CREATED);
     }
 
 }
