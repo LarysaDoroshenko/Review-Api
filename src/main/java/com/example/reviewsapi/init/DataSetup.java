@@ -10,16 +10,16 @@ import javax.annotation.PostConstruct;
 @Component
 @RequiredArgsConstructor
 public class DataSetup {
-    
+
     private final ReviewRepository reviewRepository;
-    
+
     @PostConstruct
     public void dataSetup() {
         ReviewEntity review1 = new ReviewEntity();
         review1.setId(1L);
         review1.setUserId(1L);
         review1.setMovieId(1L);
-        review1.setRating(7);
+        review1.setRating(7L);
         review1.setComment("Slightly above average.");
         reviewRepository.save(review1);
 
@@ -27,9 +27,9 @@ public class DataSetup {
         review2.setId(2L);
         review2.setUserId(1L);
         review2.setMovieId(2L);
-        review2.setRating(9);
+        review2.setRating(9L);
         review2.setComment("Nolan genius.");
         reviewRepository.save(review2);
     }
-    
+
 }

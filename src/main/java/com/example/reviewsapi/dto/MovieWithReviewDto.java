@@ -1,19 +1,22 @@
 package com.example.reviewsapi.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class MovieWithReviewDto {
-    
+
     private String movieTitle;
     private String movieDirectorName;
     private LocalDate movieReleaseDate;
-    private Integer movieRating;
+    private Long movieRating;
     private String movieComment;
-    
+
 }

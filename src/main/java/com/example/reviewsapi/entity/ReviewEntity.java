@@ -1,16 +1,12 @@
 package com.example.reviewsapi.entity;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import javax.persistence.*;
 
 @Data
 @Table(name = "review")
 @Entity
-@EqualsAndHashCode
-@ToString
 public class ReviewEntity {
 
     @Id
@@ -19,7 +15,7 @@ public class ReviewEntity {
 
     private Long userId;
     private Long movieId;
-    private Integer rating;
+    private Long rating;
     private String comment;
 
 }

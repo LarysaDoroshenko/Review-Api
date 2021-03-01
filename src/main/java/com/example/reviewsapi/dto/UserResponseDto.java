@@ -1,15 +1,19 @@
 package com.example.reviewsapi.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserResponseDto {
-    
+
     private Long id;
     private String firstName;
     private String lastName;
     private String email;
-    
+
 }
