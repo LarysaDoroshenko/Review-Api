@@ -2,12 +2,13 @@ package com.example.reviewsapi.service;
 
 import com.example.reviewsapi.dto.*;
 import com.example.reviewsapi.entity.ReviewEntity;
+import com.example.reviewsapi.feignclients.MovieFeignClient;
+import com.example.reviewsapi.feignclients.UserFeignClient;
 import com.example.reviewsapi.mapper.ReviewMapper;
 import com.example.reviewsapi.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,13 +19,13 @@ import java.util.stream.Collectors;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final RestTemplate restTemplate;
     private final ReviewMapper reviewMapper;
+    private final UserFeignClient userFeignClient;
+    private final MovieFeignClient movieFeignClient;
 
     @Override
     public ReviewResponseDto getReviewListByUserId(Long userId) {
-        String getUserUrl = "http://localhost:8081/users" + "/" + userId;
-        UserResponseDto userResponseDto = restTemplate.getForObject(getUserUrl, UserResponseDto.class);
+        UserResponseDto userResponseDto = userFeignClient.getUserById(userId);
 
         List<ReviewEntity> reviewList = reviewRepository.findAllByUserId(userId);
 
@@ -49,13 +50,12 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     private MovieWithReviewDto getMovieWithReviewDto(ReviewEntity reviewEntity) {
-        String getMovieUrl = "http://localhost:8082/movie" + "/" + reviewEntity.getMovieId();
-        MovieResponseDto movie = restTemplate.getForObject(getMovieUrl, MovieResponseDto.class);
+        MovieResponseDto movieResponseDto = movieFeignClient.getMovieById(reviewEntity.getId());
 
         return MovieWithReviewDto.builder()
-                                 .title(movie.getTitle())
-                                 .directorName(movie.getDirectorName())
-                                 .releaseDate(movie.getReleaseDate())
+                                 .title(movieResponseDto.getTitle())
+                                 .directorName(movieResponseDto.getDirectorName())
+                                 .releaseDate(movieResponseDto.getReleaseDate())
                                  .userRating(reviewEntity.getRating())
                                  .userComment(reviewEntity.getComment())
                                  .build();
